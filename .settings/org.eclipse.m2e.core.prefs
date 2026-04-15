@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+activeProfiles=
+has_project_specific_settings=false
+resolveWorkspaceProjects=true
+resourceFilterGoals=process-resources resources\:testResources
+skipCompilerPlugin=true
+version=1

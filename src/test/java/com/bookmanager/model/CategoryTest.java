@@ -36,4 +36,5 @@ class CategoryTest {
 
     assertThat(c1).isNotEqualTo(c2);
     }
+    
 }

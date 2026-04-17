@@ -120,4 +120,16 @@ class BookServiceTest {
 	        verify(bookRepository, never()).save(any());
 	    }
 	    
+	    
+	    @Test
+	    void addBook_whenDuplicateId_shouldShowErrorAndNotSave() {
+	        when(bookRepository.findById("book-1")).thenReturn(book1);
+	        Book duplicate = new Book("book-1", "1984", "George Orwell", "cat-1");
+
+	        bookService.addBook(duplicate, bookView);
+
+	        verify(bookView).showError("Book with id book-1 already exists");
+	        verify(bookRepository, never()).save(any());
+	    } 
+
 }

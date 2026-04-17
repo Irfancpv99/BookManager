@@ -1,5 +1,6 @@
 package com.bookmanager.controller;
 
+import com.bookmanager.model.Book;
 import com.bookmanager.service.BookService;
 import com.bookmanager.view.BookView;
 
@@ -20,4 +21,8 @@ public class BookController {
 	public void allCategories() {
         bookService.allCategories(bookView);
     }
+	 
+		public void addBook(Book book) {
+	        bookService.addBook(book, bookView);
+	    }
 } 

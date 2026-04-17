@@ -89,5 +89,13 @@ class BookServiceTest {
         verify(bookView).showError("Title cannot be empty");
         verify(bookRepository, never()).save(any());
     }
-    
+	    @Test
+	    void addBook_whenAuthorIsEmpty_shouldShowErrorAndNotSave() {
+	        Book bad = new Book(null, "Brave New World", "", "cat-1");
+	
+	        bookService.addBook(bad, bookView);
+	
+	        verify(bookView).showError("Author cannot be empty");
+	        verify(bookRepository, never()).save(any());
+	    }
 }

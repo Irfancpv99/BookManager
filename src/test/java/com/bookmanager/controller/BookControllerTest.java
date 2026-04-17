@@ -45,4 +45,10 @@ class BookControllerTest {
         verify(bookService).allCategories(bookView);
     }
     
+    @Test
+    void addBook_shouldDelegateToService() {
+        bookController.addBook(book1);
+ 
+        verify(bookService).addBook(book1, bookView);
+    }
 }

@@ -4,6 +4,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -42,9 +43,9 @@ class BookServiceTest {
         book1 = new Book("book-1", "1984", "George Orwell", "cat-1");
     }
 
-    // -------------------------------------------------------------------------
-    // allBooks
-    // -------------------------------------------------------------------------
+    // ------------------------------
+    	// allBooks
+    // ----------------------------
 
     @Test
     void allBooks_shouldFetchAllAndPassToView() {
@@ -55,4 +56,28 @@ class BookServiceTest {
 
         verify(bookView).showAllBooks(books);
     }
+    
+    @Test
+    void allBooks_whenEmpty_shouldPassEmptyListToView() {
+        when(bookRepository.findAll()).thenReturn(Collections.emptyList());
+
+        bookService.allBooks(bookView);
+
+        verify(bookView).showAllBooks(Collections.emptyList());
+    }
+    
+    // ------------------------------------
+    	// allCategories
+    // ------------------------------
+
+    @Test
+    void allCategories_shouldFetchAllAndPassToView() {
+        List<Category> categories = Arrays.asList(fiction);
+        when(categoryRepository.findAll()).thenReturn(categories);
+
+        bookService.allCategories(bookView);
+
+        verify(bookView).showAllCategories(categories);
+    }
+    
 }

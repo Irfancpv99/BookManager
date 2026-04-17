@@ -51,4 +51,11 @@ class BookControllerTest {
  
         verify(bookService).addBook(book1, bookView);
     }
+    
+    @Test
+    void deleteBook_shouldDelegateToService() {
+        bookController.deleteBook(book1);
+ 
+        verify(bookService).deleteBook(book1, bookView);
+    }
 }

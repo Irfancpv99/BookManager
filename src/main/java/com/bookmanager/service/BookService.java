@@ -18,4 +18,7 @@ public class BookService {
     public void allBooks(BookView view) {
         view.showAllBooks(bookRepository.findAll());
     }
+    public void allCategories(BookView view) {
+        view.showAllCategories(categoryRepository.findAll());
+    }
 }

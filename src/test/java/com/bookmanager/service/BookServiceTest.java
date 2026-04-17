@@ -98,4 +98,16 @@ class BookServiceTest {
 	        verify(bookView).showError("Author cannot be empty");
 	        verify(bookRepository, never()).save(any());
 	    }
+	   
+	    
+	    @Test
+	    void addBook_whenCategoryIdIsNull_shouldShowErrorAndNotSave() {
+	        Book bad = new Book(null, "Brave New World", "Aldous Huxley", null);
+
+	        bookService.addBook(bad, bookView);
+
+	        verify(bookView).showError("Category must be selected");
+	        verify(bookRepository, never()).save(any());
+	    }
+	    
 }

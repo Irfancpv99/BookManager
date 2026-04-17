@@ -1,5 +1,6 @@
 package com.bookmanager.service;
 
+import com.bookmanager.model.Book;
 import com.bookmanager.repository.BookRepository;
 import com.bookmanager.repository.CategoryRepository;
 import com.bookmanager.view.BookView;
@@ -20,5 +21,9 @@ public class BookService {
     }
     public void allCategories(BookView view) {
         view.showAllCategories(categoryRepository.findAll());
+    }
+    public void addBook(Book book, BookView view) {
+        bookRepository.save(book);
+        view.bookAdded(book);
     }
 }

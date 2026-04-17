@@ -15,8 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bookmanager.model.Book;
 import com.bookmanager.model.Category;
-import com.bookmanager.repository.BookRepository;
-import com.bookmanager.repository.CategoryRepository;
+import com.bookmanager.repository.*;
 import com.bookmanager.view.BookView;
 
 @ExtendWith(MockitoExtension.class)

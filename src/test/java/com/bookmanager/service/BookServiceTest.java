@@ -132,4 +132,18 @@ class BookServiceTest {
 	        verify(bookRepository, never()).save(any());
 	    } 
 
+	    
+	 // ------------------------------
+	    // deleteBook
+	    // ---------------------
+
+	    @Test
+	    void deleteBook_whenExists_shouldDeleteAndNotifyView() {
+	        when(bookRepository.findById("book-1")).thenReturn(book1);
+
+	        bookService.deleteBook(book1, bookView);
+
+	        verify(bookRepository).delete("book-1");
+	        verify(bookView).bookDeleted(book1);
+	    }
 }

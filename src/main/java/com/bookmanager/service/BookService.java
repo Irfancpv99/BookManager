@@ -43,5 +43,12 @@ public class BookService {
 		    	        bookRepository.save(book);
 		    	        view.bookAdded(book);
 		    	    }
-    
+		    	 public void deleteBook(Book book, BookView view) {
+		    		 if (bookRepository.findById(book.getId()) == null) {
+		    	            view.showError("Book with id " + book.getId() + " no longer exists");
+		    	            return;
+		    	        }
+		    		 bookRepository.delete(book.getId());
+		    	        view.bookDeleted(book);
+		    	    }
 }

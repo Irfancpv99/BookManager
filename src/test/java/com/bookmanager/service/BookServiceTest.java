@@ -146,4 +146,15 @@ class BookServiceTest {
 	        verify(bookRepository).delete("book-1");
 	        verify(bookView).bookDeleted(book1);
 	    }
+	    
+	    
+	    @Test
+	    void deleteBook_whenNotExists_shouldShowError() {
+	        when(bookRepository.findById("book-1")).thenReturn(null);
+	 
+	        bookService.deleteBook(book1, bookView);
+	 
+	        verify(bookView).showError("Book with id book-1 no longer exists");
+	        verify(bookRepository, never()).delete(any());
+	    }
 }

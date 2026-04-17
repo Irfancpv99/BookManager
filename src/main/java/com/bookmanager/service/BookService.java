@@ -31,6 +31,10 @@ public class BookService {
 		    	            view.showError("Author cannot be empty");
 		    	            return;
 		    	        }
+		    	       if (book.getCategoryId() == null) {
+		    	            view.showError("Category must be selected");
+		    	            return;
+		    	        }
 		    	        bookRepository.save(book);
 		    	        view.bookAdded(book);
 		    	    }

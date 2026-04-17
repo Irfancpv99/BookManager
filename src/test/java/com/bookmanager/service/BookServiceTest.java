@@ -66,6 +66,16 @@ class BookServiceTest {
         verify(bookView).showAllBooks(Collections.emptyList());
     }
     
+    @Test
+    void addBook_whenValid_shouldSaveAndNotifyView() {
+        Book newBook = new Book(null, "Brave New World", "Aldous Huxley", "cat-1");
+
+        bookService.addBook(newBook, bookView);
+
+        verify(bookRepository).save(newBook);
+        verify(bookView).bookAdded(newBook);
+    }
+    
     // ------------------------------------
     	// allCategories
     // ------------------------------

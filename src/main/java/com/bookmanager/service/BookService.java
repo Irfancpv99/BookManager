@@ -26,4 +26,5 @@ public class BookService {
         bookRepository.save(book);
         view.bookAdded(book);
     }
+    
 }

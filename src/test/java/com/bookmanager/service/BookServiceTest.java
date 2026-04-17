@@ -1,7 +1,7 @@
 package com.bookmanager.service;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -78,6 +78,16 @@ class BookServiceTest {
         bookService.allCategories(bookView);
 
         verify(bookView).showAllCategories(categories);
+    }
+    
+    @Test
+    void addBook_whenTitleIsEmpty_shouldShowErrorAndNotSave() {
+        Book bad = new Book(null, "", "Aldous Huxley", "cat-1");
+
+        bookService.addBook(bad, bookView);
+
+        verify(bookView).showError("Title cannot be empty");
+        verify(bookRepository, never()).save(any());
     }
     
 }

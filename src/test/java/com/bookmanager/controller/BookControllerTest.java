@@ -33,27 +33,27 @@ class BookControllerTest {
     }
 
     @Test
-    void allBooks_shouldDelegateToService() {
+    void shouldShowAllBooks() {
         bookController.allBooks();
 
         verify(bookService).allBooks(bookView);
     }
     @Test
-    void allCategories_shouldDelegateToService() {
+    void shouldShowAllCategories() {
         bookController.allCategories();
  
         verify(bookService).allCategories(bookView);
     }
     
     @Test
-    void addBook_shouldDelegateToService() {
+    void shouldSaveNewBook() {
         bookController.addBook(book1);
  
         verify(bookService).addBook(book1, bookView);
     }
     
     @Test
-    void deleteBook_shouldDelegateToService() {
+    void shouldRemoveBook() {
         bookController.deleteBook(book1);
  
         verify(bookService).deleteBook(book1, bookView);

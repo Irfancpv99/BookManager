@@ -25,4 +25,8 @@ public class BookController {
 		public void addBook(Book book) {
 	        bookService.addBook(book, bookView);
 	    }
+		
+		 public void deleteBook(Book book) {
+		        bookService.deleteBook(book, bookView);
+		    }
 } 

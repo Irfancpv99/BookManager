@@ -1,7 +1,6 @@
 package com.bookmanager.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.Test;
 
 class CategoryTest {
@@ -36,5 +35,4 @@ class CategoryTest {
 
     assertThat(c1).isNotEqualTo(c2);
     }
-    
 }

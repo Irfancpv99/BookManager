@@ -35,6 +35,11 @@ public class BookService {
 		    	            view.showError("Category must be selected");
 		    	            return;
 		    	        }
+		    	       if (book.getId() != null && bookRepository.findById(book.getId()) != null) {
+		    	            view.showError("Book with id " + book.getId() + " already exists");
+		    	            return;
+		    	        }
+		    	       
 		    	        bookRepository.save(book);
 		    	        view.bookAdded(book);
 		    	    }

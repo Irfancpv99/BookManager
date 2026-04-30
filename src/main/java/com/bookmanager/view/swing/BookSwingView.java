@@ -9,7 +9,6 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -40,14 +39,12 @@ public class BookSwingView extends JPanel implements BookView {
     JLabel errorLabel;
 
     public BookSwingView() {
-        setTitle("Book Manager");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(550, 400);
-        setLocationRelativeTo(null);
         buildUI();
     }
 
     private void buildUI() {
+    	setLayout(new BorderLayout());
+    	
         add(buildFormPanel(), BorderLayout.NORTH);
         add(buildListPanel(), BorderLayout.CENTER);
         add(buildErrorLabel(), BorderLayout.SOUTH);

@@ -24,7 +24,7 @@ import java.awt.GridLayout;
 import java.util.List;
 import java.util.UUID;
 
-public class BookSwingView extends JFrame implements BookView {
+public class BookSwingView extends JPanel implements BookView {
 
     private static final long serialVersionUID = 1L;
 

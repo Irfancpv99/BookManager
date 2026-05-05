@@ -1,4 +1,4 @@
-package com.bookmanager.repository;
+package com.bookmanager.repository.mongo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

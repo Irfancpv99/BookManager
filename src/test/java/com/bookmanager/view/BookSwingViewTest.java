@@ -17,7 +17,7 @@ import com.bookmanager.model.Book;
 import com.bookmanager.model.Category;
 import com.bookmanager.view.swing.BookSwingView;
 
-public class BookSwingViewTest {
+class BookSwingViewTest {
 
     private BookSwingView view;
 
@@ -25,32 +25,33 @@ public class BookSwingViewTest {
     private BookController controller;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
         view = new BookSwingView();
         view.setController(controller);
     }
 
-    // -------------------------------------------------------------------------
     // Initial state
-    // -------------------------------------------------------------------------
 
     @Test
-    public void addButtonShouldBeDisabledOnStartup() {
+    void addButtonShouldBeDisabledOnStartup() {
         assertThat(view.getAddButton().isEnabled()).isFalse();
     }
 
     @Test
-    public void deleteButtonShouldBeDisabledOnStartup() {
+    void editButtonShouldBeDisabledOnStartup() {
+        assertThat(view.getEditButton().isEnabled()).isFalse();
+    }
+
+    @Test
+    void deleteButtonShouldBeDisabledOnStartup() {
         assertThat(view.getDeleteButton().isEnabled()).isFalse();
     }
 
-    // -------------------------------------------------------------------------
     // Add button enable/disable
-    // -------------------------------------------------------------------------
 
     @Test
-    public void addButtonShouldEnableWhenTitleAndAuthorAreBothFilled() {
+    void addButtonShouldEnableWhenTitleAndAuthorFilledAndNoBookSelected() {
         view.getTitleField().setText("1984");
         view.getAuthorField().setText("George Orwell");
 
@@ -58,21 +59,19 @@ public class BookSwingViewTest {
     }
 
     @Test
-    public void addButtonShouldStayDisabledWhenOnlyTitleIsFilled() {
+    void addButtonShouldStayDisabledWhenOnlyTitleIsFilled() {
         view.getTitleField().setText("1984");
-
         assertThat(view.getAddButton().isEnabled()).isFalse();
     }
 
     @Test
-    public void addButtonShouldStayDisabledWhenOnlyAuthorIsFilled() {
+    void addButtonShouldStayDisabledWhenOnlyAuthorIsFilled() {
         view.getAuthorField().setText("George Orwell");
-
         assertThat(view.getAddButton().isEnabled()).isFalse();
     }
 
     @Test
-    public void addButtonShouldDisableAgainAfterTitleIsCleared() {
+    void addButtonShouldDisableAgainAfterTitleIsCleared() {
         view.getTitleField().setText("1984");
         view.getAuthorField().setText("George Orwell");
         view.getTitleField().setText("");
@@ -80,80 +79,121 @@ public class BookSwingViewTest {
         assertThat(view.getAddButton().isEnabled()).isFalse();
     }
 
-    // -------------------------------------------------------------------------
-    // Delete button enable/disable
-    // -------------------------------------------------------------------------
+    // Edit button enable/disable
 
     @Test
-    public void deleteButtonShouldEnableWhenBookIsSelected() {
+    void editButtonShouldEnableWhenBookIsSelectedAndFieldsAreFilled() {
+        Book book = new Book("book-1", "1984", "George Orwell", "cat-1");
+        view.showAllBooks(Arrays.asList(book));
+        view.getBookList().setSelectedIndex(0);
+
+        assertThat(view.getEditButton().isEnabled()).isTrue();
+    }
+
+    @Test
+    void addButtonShouldDisableWhenBookIsSelected() {
+        Book book = new Book("book-1", "1984", "George Orwell", "cat-1");
+        view.showAllBooks(Arrays.asList(book));
+        view.getBookList().setSelectedIndex(0);
+
+        assertThat(view.getAddButton().isEnabled()).isFalse();
+    }
+
+    // Selecting a book populates form fields
+
+    @Test
+    void selectingBookShouldPopulateFormFields() {
+        Category fiction = new Category("cat-1", "Fiction");
+        view.showAllCategories(Arrays.asList(fiction));
         Book book = new Book("book-1", "1984", "George Orwell", "cat-1");
         view.showAllBooks(Arrays.asList(book));
 
         view.getBookList().setSelectedIndex(0);
 
+        assertThat(view.getTitleField().getText()).isEqualTo("1984");
+        assertThat(view.getAuthorField().getText()).isEqualTo("George Orwell");
+        assertThat(view.getBookBeingEdited()).isEqualTo(book);
+    }
+
+    // Delete button enable/disable
+
+    @Test
+    void deleteButtonShouldEnableWhenBookIsSelected() {
+        Book book = new Book("book-1", "1984", "George Orwell", "cat-1");
+        view.showAllBooks(Arrays.asList(book));
+        view.getBookList().setSelectedIndex(0);
+
         assertThat(view.getDeleteButton().isEnabled()).isTrue();
     }
 
-    // -------------------------------------------------------------------------
     // showAllBooks
-    // -------------------------------------------------------------------------
 
     @Test
-    public void showAllBooksShouldPopulateTheList() {
-        Book b1 = new Book("book-1", "1984", "George Orwell", "cat-1");
-        Book b2 = new Book("book-2", "Dune", "Frank Herbert", "cat-2");
-
-        view.showAllBooks(Arrays.asList(b1, b2));
+    void showAllBooksShouldPopulateTheList() {
+        view.showAllBooks(Arrays.asList(
+                new Book("book-1", "1984", "George Orwell", "cat-1"),
+                new Book("book-2", "Dune", "Frank Herbert", "cat-2")));
 
         assertThat(view.getBookListModel().getSize()).isEqualTo(2);
     }
 
     @Test
-    public void showAllBooksWithEmptyListShouldClearTheList() {
-        Book book = new Book("book-1", "1984", "George Orwell", "cat-1");
-        view.showAllBooks(Arrays.asList(book));
+    void showAllBooksWithEmptyListShouldClearTheList() {
+        view.showAllBooks(Arrays.asList(new Book("book-1", "1984", "George Orwell", "cat-1")));
         view.showAllBooks(Collections.emptyList());
 
         assertThat(view.getBookListModel().getSize()).isEqualTo(0);
     }
 
-    // -------------------------------------------------------------------------
     // showAllCategories
-    // -------------------------------------------------------------------------
 
     @Test
-    public void showAllCategoriesShouldPopulateComboBox() {
-        Category c1 = new Category("cat-1", "Fiction");
-        Category c2 = new Category("cat-2", "Science");
-
-        view.showAllCategories(Arrays.asList(c1, c2));
+    void showAllCategoriesShouldPopulateComboBox() {
+        view.showAllCategories(Arrays.asList(
+                new Category("cat-1", "Fiction"),
+                new Category("cat-2", "Science")));
 
         assertThat(view.getCategoryCombo().getItemCount()).isEqualTo(2);
         assertThat(view.getCategoryCombo().getItemAt(0).getName()).isEqualTo("Fiction");
         assertThat(view.getCategoryCombo().getItemAt(1).getName()).isEqualTo("Science");
     }
 
-    // -------------------------------------------------------------------------
     // bookAdded
-    // -------------------------------------------------------------------------
 
     @Test
-    public void bookAddedShouldAddBookToListAndClearFields() {
+    void bookAddedShouldAddBookToListAndClearFields() {
         Book book = new Book("book-1", "1984", "George Orwell", "cat-1");
+        view.getTitleField().setText("1984");
+        view.getAuthorField().setText("George Orwell");
 
         view.bookAdded(book);
 
         assertThat(view.getBookListModel().getSize()).isEqualTo(1);
         assertThat(view.getTitleField().getText()).isEmpty();
         assertThat(view.getAuthorField().getText()).isEmpty();
+        assertThat(view.getBookBeingEdited()).isNull();
     }
 
-    // -------------------------------------------------------------------------
-    // bookDeleted
-    // -------------------------------------------------------------------------
+    // bookUpdated
 
     @Test
-    public void bookDeletedShouldRemoveBookFromList() {
+    void bookUpdatedShouldReplaceBookInListAndClearFields() {
+        Book original = new Book("book-1", "1984", "George Orwell", "cat-1");
+        view.showAllBooks(Arrays.asList(original));
+
+        Book updated = new Book("book-1", "1984 - Revised", "George Orwell", "cat-1");
+        view.bookUpdated(updated);
+
+        assertThat(view.getBookListModel().getSize()).isEqualTo(1);
+        assertThat(view.getBookListModel().getElementAt(0).getTitle()).isEqualTo("1984 - Revised");
+        assertThat(view.getTitleField().getText()).isEmpty();
+        assertThat(view.getBookBeingEdited()).isNull();
+    }
+
+    // bookDeleted
+
+    @Test
+    void bookDeletedShouldRemoveBookFromList() {
         Book book = new Book("book-1", "1984", "George Orwell", "cat-1");
         view.showAllBooks(Arrays.asList(book));
 
@@ -162,23 +202,18 @@ public class BookSwingViewTest {
         assertThat(view.getBookListModel().getSize()).isEqualTo(0);
     }
 
-    // -------------------------------------------------------------------------
     // showError
-    // -------------------------------------------------------------------------
 
     @Test
-    public void showErrorShouldDisplayMessageInErrorLabel() {
+    void showErrorShouldDisplayMessageInErrorLabel() {
         view.showError("Something went wrong");
-
         assertThat(view.getErrorLabel().getText()).isEqualTo("Something went wrong");
     }
 
-    // -------------------------------------------------------------------------
     // Controller delegation
-    // -------------------------------------------------------------------------
 
     @Test
-    public void clickAddButtonShouldDelegateToController() {
+    void clickAddButtonShouldDelegateToController() {
         Category fiction = new Category("cat-1", "Fiction");
         view.showAllCategories(Arrays.asList(fiction));
         view.getTitleField().setText("1984");
@@ -193,7 +228,25 @@ public class BookSwingViewTest {
     }
 
     @Test
-    public void clickDeleteButtonShouldDelegateToController() {
+    void clickEditButtonShouldDelegateToController() {
+        Category fiction = new Category("cat-1", "Fiction");
+        view.showAllCategories(Arrays.asList(fiction));
+        Book book = new Book("book-1", "1984", "George Orwell", "cat-1");
+        view.showAllBooks(Arrays.asList(book));
+        view.getBookList().setSelectedIndex(0);
+
+        view.getTitleField().setText("1984 - Revised");
+        view.getEditButton().doClick();
+
+        verify(controller).updateBook(argThat(b ->
+                b.getId().equals("book-1")
+                        && b.getTitle().equals("1984 - Revised")
+                        && b.getAuthor().equals("George Orwell")
+                        && b.getCategoryId().equals("cat-1")));
+    }
+
+    @Test
+    void clickDeleteButtonShouldDelegateToController() {
         Book book = new Book("book-1", "1984", "George Orwell", "cat-1");
         view.showAllBooks(Arrays.asList(book));
         view.getBookList().setSelectedIndex(0);

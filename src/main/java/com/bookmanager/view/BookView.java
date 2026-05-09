@@ -13,6 +13,8 @@ public interface BookView {
 
     void bookAdded(Book book);
 
+    void bookUpdated(Book book);
+
     void bookDeleted(Book book);
 
     void showError(String message);

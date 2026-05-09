@@ -57,6 +57,16 @@ class MongoBookRepositoryIT {
     }
 
     @Test
+    void update_replacesBookInDatabase() {
+        repository.save(new Book("book-1", "1984", "George Orwell", "cat-1"));
+
+        repository.update(new Book("book-1", "1984 - Revised", "George Orwell", "cat-1"));
+
+        Book found = repository.findById("book-1");
+        assertThat(found.getTitle()).isEqualTo("1984 - Revised");
+    }
+
+    @Test
     void delete_removesBook() {
         repository.save(new Book("book-1", "1984", "George Orwell", "cat-1"));
         repository.delete("book-1");

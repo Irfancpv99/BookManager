@@ -1,14 +1,10 @@
-package com.bookmanager.repository.mongo;
+package com.bookmanager.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-
-import com.bookmanager.model.Book;
-import com.bookmanager.repository.mongo.MongoBookRepository;
 import com.bookmanager.model.Category;
 import com.bookmanager.repository.mongo.MongoCategoryRepository;
 
@@ -25,7 +21,7 @@ class MongoCategoryRepositoryIT {
     void setUp() {
         client = MongoClients.create("mongodb://localhost:27017");
         MongoDatabase database = client.getDatabase("bookmanager-it");
-        database.getCollection("books").drop();
+        database.getCollection("categories").drop();
         repository = new MongoCategoryRepository(database);
     }
 

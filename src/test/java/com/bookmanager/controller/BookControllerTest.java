@@ -16,11 +16,8 @@ import com.bookmanager.view.BookView;
 @ExtendWith(MockitoExtension.class)
 class BookControllerTest {
 
-    @Mock
-    private BookService bookService;
-
-    @Mock
-    private BookView bookView;
+    @Mock private BookService bookService;
+    @Mock private BookView bookView;
 
     @InjectMocks
     private BookController bookController;
@@ -35,27 +32,30 @@ class BookControllerTest {
     @Test
     void shouldShowAllBooks() {
         bookController.allBooks();
-
         verify(bookService).allBooks(bookView);
     }
+
     @Test
     void shouldShowAllCategories() {
         bookController.allCategories();
- 
         verify(bookService).allCategories(bookView);
     }
-    
+
     @Test
     void shouldSaveNewBook() {
         bookController.addBook(book1);
- 
         verify(bookService).addBook(book1, bookView);
     }
-    
+
+    @Test
+    void shouldUpdateBook() {
+        bookController.updateBook(book1);
+        verify(bookService).updateBook(book1, bookView);
+    }
+
     @Test
     void shouldRemoveBook() {
         bookController.deleteBook(book1);
- 
         verify(bookService).deleteBook(book1, bookView);
     }
 }

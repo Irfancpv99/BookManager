@@ -29,10 +29,14 @@ public class BookSwingView extends JPanel implements BookView {
 
     private BookController controller;
 
+    // track which book is being edited (null = add mode)
+    private Book bookBeingEdited;
+
     JTextField titleField;
     JTextField authorField;
     JComboBox<Category> categoryCombo;
     JButton addButton;
+    JButton editButton;
     JButton deleteButton;
     DefaultListModel<Book> listModel;
     JList<Book> bookList;
@@ -43,8 +47,7 @@ public class BookSwingView extends JPanel implements BookView {
     }
 
     private void buildUI() {
-    	setLayout(new BorderLayout());
-    	
+        setLayout(new BorderLayout());
         add(buildFormPanel(), BorderLayout.NORTH);
         add(buildListPanel(), BorderLayout.CENTER);
         add(buildErrorLabel(), BorderLayout.SOUTH);
@@ -65,21 +68,15 @@ public class BookSwingView extends JPanel implements BookView {
         addButton.setEnabled(false);
         addButton.addActionListener(e -> onAddBook());
 
+        editButton = new JButton("Save Edit");
+        editButton.setName("editButton");
+        editButton.setEnabled(false);
+        editButton.addActionListener(e -> onEditBook());
+
         DocumentListener enabler = new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                updateAddButton();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateAddButton();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateAddButton();
-            }
+            @Override public void insertUpdate(DocumentEvent e)  { updateButtons(); }
+            @Override public void removeUpdate(DocumentEvent e)  { updateButtons(); }
+            @Override public void changedUpdate(DocumentEvent e) { updateButtons(); }
         };
 
         titleField.getDocument().addDocumentListener(enabler);
@@ -93,8 +90,8 @@ public class BookSwingView extends JPanel implements BookView {
         panel.add(authorField);
         panel.add(new JLabel("Category:"));
         panel.add(categoryCombo);
-        panel.add(new JLabel(""));
         panel.add(addButton);
+        panel.add(editButton);
         return panel;
     }
 
@@ -112,7 +109,7 @@ public class BookSwingView extends JPanel implements BookView {
 
         bookList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                deleteButton.setEnabled(bookList.getSelectedIndex() != -1);
+                onBookSelected();
             }
         });
 
@@ -130,6 +127,27 @@ public class BookSwingView extends JPanel implements BookView {
         return errorLabel;
     }
 
+    // -------------------------------------------------------------------------
+    // UI event handlers
+    // -------------------------------------------------------------------------
+
+    private void onBookSelected() {
+        Book selected = bookList.getSelectedValue();
+        if (selected == null) {
+            clearForm();
+            bookBeingEdited = null;
+            deleteButton.setEnabled(false);
+        } else {
+            // populate form fields with the selected book
+            bookBeingEdited = selected;
+            titleField.setText(selected.getTitle());
+            authorField.setText(selected.getAuthor());
+            selectCategory(selected.getCategoryId());
+            deleteButton.setEnabled(true);
+        }
+        updateButtons();
+    }
+
     private void onAddBook() {
         Category selected = (Category) categoryCombo.getSelectedItem();
         String categoryId = selected != null ? selected.getId() : null;
@@ -141,6 +159,18 @@ public class BookSwingView extends JPanel implements BookView {
         controller.addBook(book);
     }
 
+    private void onEditBook() {
+        if (bookBeingEdited == null) return;
+        Category selected = (Category) categoryCombo.getSelectedItem();
+        String categoryId = selected != null ? selected.getId() : null;
+        Book updated = new Book(
+                bookBeingEdited.getId(),
+                titleField.getText().trim(),
+                authorField.getText().trim(),
+                categoryId);
+        controller.updateBook(updated);
+    }
+
     private void onDeleteBook() {
         Book selected = bookList.getSelectedValue();
         if (selected != null) {
@@ -148,15 +178,37 @@ public class BookSwingView extends JPanel implements BookView {
         }
     }
 
-    private void updateAddButton() {
-        boolean ready = !titleField.getText().trim().isEmpty()
-                && !authorField.getText().trim().isEmpty();
-        addButton.setEnabled(ready);
+    // -------------------------------------------------------------------------
+    // Helpers
+    // -------------------------------------------------------------------------
+
+    private void selectCategory(String categoryId) {
+        for (int i = 0; i < categoryCombo.getItemCount(); i++) {
+            if (categoryCombo.getItemAt(i).getId().equals(categoryId)) {
+                categoryCombo.setSelectedIndex(i);
+                return;
+            }
+        }
     }
 
-    public void setController(BookController controller) {
-        this.controller = controller;
+    private void clearForm() {
+        titleField.setText("");
+        authorField.setText("");
+        errorLabel.setText(" ");
     }
+
+    private void updateButtons() {
+        boolean fieldsReady = !titleField.getText().trim().isEmpty()
+                && !authorField.getText().trim().isEmpty();
+        // Add mode: no book selected
+        addButton.setEnabled(fieldsReady && bookBeingEdited == null);
+        // Edit mode: a book is selected
+        editButton.setEnabled(fieldsReady && bookBeingEdited != null);
+    }
+
+    // -------------------------------------------------------------------------
+    // BookView callbacks
+    // -------------------------------------------------------------------------
 
     @Override
     public void showAllBooks(List<Book> books) {
@@ -173,14 +225,32 @@ public class BookSwingView extends JPanel implements BookView {
     @Override
     public void bookAdded(Book book) {
         listModel.addElement(book);
-        titleField.setText("");
-        authorField.setText("");
-        errorLabel.setText(" ");
+        clearForm();
+        bookBeingEdited = null;
+        updateButtons();
+    }
+
+    @Override
+    public void bookUpdated(Book book) {
+        // replace the old entry in the list model
+        for (int i = 0; i < listModel.getSize(); i++) {
+            if (listModel.getElementAt(i).getId().equals(book.getId())) {
+                listModel.set(i, book);
+                break;
+            }
+        }
+        clearForm();
+        bookList.clearSelection();
+        bookBeingEdited = null;
+        updateButtons();
     }
 
     @Override
     public void bookDeleted(Book book) {
         listModel.removeElement(book);
+        clearForm();
+        bookBeingEdited = null;
+        updateButtons();
         errorLabel.setText(" ");
     }
 
@@ -189,36 +259,19 @@ public class BookSwingView extends JPanel implements BookView {
         errorLabel.setText(message);
     }
 
+    // -------------------------------------------------------------------------
+    // Accessors (for tests)
+    // -------------------------------------------------------------------------
 
-    public JButton getAddButton() {
-        return addButton;
-    }
-
-    public JButton getDeleteButton() {
-        return deleteButton;
-    }
-
-    public JTextField getTitleField() {
-        return titleField;
-    }
-
-    public JTextField getAuthorField() {
-        return authorField;
-    }
-
-    public JList<Book> getBookList() {
-        return bookList;
-    }
-
-    public DefaultListModel<Book> getBookListModel() {
-        return listModel;
-    }
-
-    public JComboBox<Category> getCategoryCombo() {
-        return categoryCombo;
-    }
-
-    public JLabel getErrorLabel() {
-        return errorLabel;
-    }
+    public void setController(BookController controller) { this.controller = controller; }
+    public JButton getAddButton()                        { return addButton; }
+    public JButton getEditButton()                       { return editButton; }
+    public JButton getDeleteButton()                     { return deleteButton; }
+    public JTextField getTitleField()                    { return titleField; }
+    public JTextField getAuthorField()                   { return authorField; }
+    public JList<Book> getBookList()                     { return bookList; }
+    public DefaultListModel<Book> getBookListModel()     { return listModel; }
+    public JComboBox<Category> getCategoryCombo()        { return categoryCombo; }
+    public JLabel getErrorLabel()                        { return errorLabel; }
+    public Book getBookBeingEdited()                     { return bookBeingEdited; }
 }

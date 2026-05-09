@@ -42,6 +42,11 @@ public class MongoBookRepository implements BookRepository {
     }
 
     @Override
+    public void update(Book book) {
+        collection.replaceOne(eq("id", book.getId()), toDocument(book));
+    }
+
+    @Override
     public void delete(String id) {
         collection.deleteOne(eq("id", id));
     }

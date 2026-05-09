@@ -27,12 +27,14 @@ class BookServiceIT {
         List<Book> books;
         List<Category> categories;
         Book added;
+        Book updated;
         Book deleted;
         String error;
 
         @Override public void showAllBooks(List<Book> b)          { books = b; }
         @Override public void showAllCategories(List<Category> c) { categories = c; }
         @Override public void bookAdded(Book b)                   { added = b; }
+        @Override public void bookUpdated(Book b)                 { updated = b; }
         @Override public void bookDeleted(Book b)                 { deleted = b; }
         @Override public void showError(String msg)               { error = msg; }
     }
@@ -88,7 +90,6 @@ class BookServiceIT {
         service.addBook(book, view);
 
         assertThat(view.added).isEqualTo(book);
-
         service.allBooks(view);
         assertThat(view.books).contains(book);
     }
@@ -119,13 +120,44 @@ class BookServiceIT {
 
     @Test
     void addBook_duplicateId_showsErrorAndDoesNotSave() {
-        Book book = new Book("b-1", "1984", "George Orwell", "cat-1");
-        service.addBook(book, view);
+        service.addBook(new Book("b-1", "1984", "George Orwell", "cat-1"), view);
         view.error = null;
 
         service.addBook(new Book("b-1", "Other", "Author", "cat-1"), view);
 
         assertThat(view.error).isEqualTo("Book with id b-1 already exists");
+    }
+
+    // updateBook
+
+    @Test
+    void updateBook_valid_updatesInDatabaseAndNotifiesView() {
+        service.addBook(new Book("b-1", "1984", "George Orwell", "cat-1"), view);
+
+        Book updated = new Book("b-1", "1984 - Revised", "George Orwell", "cat-1");
+        service.updateBook(updated, view);
+
+        assertThat(view.updated).isEqualTo(updated);
+        service.allBooks(view);
+        assertThat(view.books.get(0).getTitle()).isEqualTo("1984 - Revised");
+    }
+
+    @Test
+    void updateBook_emptyTitle_showsErrorAndDoesNotUpdate() {
+        service.addBook(new Book("b-1", "1984", "George Orwell", "cat-1"), view);
+
+        service.updateBook(new Book("b-1", "", "George Orwell", "cat-1"), view);
+
+        assertThat(view.error).isEqualTo("Title cannot be empty");
+        assertThat(view.updated).isNull();
+    }
+
+    @Test
+    void updateBook_notExisting_showsError() {
+        service.updateBook(new Book("x-99", "Ghost", "Nobody", "cat-1"), view);
+
+        assertThat(view.error).isEqualTo("Book with id x-99 no longer exists");
+        assertThat(view.updated).isNull();
     }
 
     // deleteBook

@@ -28,12 +28,14 @@ class BookControllerIT {
         List<Book> books;
         List<Category> categories;
         Book added;
+        Book updated;
         Book deleted;
         String error;
 
         @Override public void showAllBooks(List<Book> b)          { books = b; }
         @Override public void showAllCategories(List<Category> c) { categories = c; }
         @Override public void bookAdded(Book b)                   { added = b; }
+        @Override public void bookUpdated(Book b)                 { updated = b; }
         @Override public void bookDeleted(Book b)                 { deleted = b; }
         @Override public void showError(String msg)               { error = msg; }
     }
@@ -90,7 +92,6 @@ class BookControllerIT {
         controller.addBook(book);
 
         assertThat(view.added).isEqualTo(book);
-
         controller.allBooks();
         assertThat(view.books).contains(book);
     }
@@ -101,6 +102,38 @@ class BookControllerIT {
 
         assertThat(view.error).isEqualTo("Title cannot be empty");
         assertThat(view.added).isNull();
+    }
+
+    // updateBook
+
+    @Test
+    void updateBook_valid_updatesInDatabaseAndNotifiesView() {
+        controller.addBook(new Book("b-1", "1984", "George Orwell", "cat-1"));
+
+        Book updated = new Book("b-1", "1984 - Revised", "George Orwell", "cat-1");
+        controller.updateBook(updated);
+
+        assertThat(view.updated).isEqualTo(updated);
+        controller.allBooks();
+        assertThat(view.books.get(0).getTitle()).isEqualTo("1984 - Revised");
+    }
+
+    @Test
+    void updateBook_invalid_showsErrorAndDoesNotUpdate() {
+        controller.addBook(new Book("b-1", "1984", "George Orwell", "cat-1"));
+
+        controller.updateBook(new Book("b-1", "", "George Orwell", "cat-1"));
+
+        assertThat(view.error).isEqualTo("Title cannot be empty");
+        assertThat(view.updated).isNull();
+    }
+
+    @Test
+    void updateBook_notExisting_showsError() {
+        controller.updateBook(new Book("x-99", "Ghost", "Nobody", "cat-1"));
+
+        assertThat(view.error).isEqualTo("Book with id x-99 no longer exists");
+        assertThat(view.updated).isNull();
     }
 
     // deleteBook

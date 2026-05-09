@@ -12,5 +12,7 @@ public interface BookRepository {
 
     void save(Book book);
 
+    void update(Book book);
+
     void delete(String id);
 }

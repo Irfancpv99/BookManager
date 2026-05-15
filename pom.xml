@@ -271,43 +271,50 @@
             </plugin>
 
             <!-- PITest mutation testing -->
-            <plugin>
-                <groupId>org.pitest</groupId>
-                <artifactId>pitest-maven</artifactId>
-                <version>${pitest.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.pitest</groupId>
-                        <artifactId>pitest-junit5-plugin</artifactId>
-                        <version>${pit.junit5.version}</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <targetClasses>
-                        <param>com.bookmanager.model.*</param>
-                        <param>com.bookmanager.service.*</param>
-                        <param>com.bookmanager.controller.*</param>
-                        
-                    </targetClasses>
-                    <targetTests>
-                        <param>com.bookmanager.model.*</param>
-                        <param>com.bookmanager.service.*</param>
-                        <param>com.bookmanager.controller.*</param>
-                    </targetTests>
-                    <excludedClasses>
-                        <param>com.bookmanager.app.*</param>
-                    </excludedClasses>
-                    <mutationThreshold>60</mutationThreshold>
-                    <mutators>
-                        <mutator>DEFAULTS</mutator>
-                    </mutators>
-                    <outputFormats>
-                        <outputFormat>HTML</outputFormat>
-                        <outputFormat>XML</outputFormat>
-                    </outputFormats>
-                    <timeoutConstant>10000</timeoutConstant>
-                </configuration>
-            </plugin>
+<<plugin>
+    <groupId>org.pitest</groupId>
+    <artifactId>pitest-maven</artifactId>
+    <version>${pitest.version}</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>${pit.junit5.version}</version>
+        </dependency>
+    </dependencies>
+    <configuration>
+        <targetClasses>
+            <param>com.bookmanager.model.*</param>
+            <param>com.bookmanager.service.*</param>
+            <param>com.bookmanager.controller.*</param>
+        </targetClasses>
+        <targetTests>
+            <!-- Only src/test/java unit tests -->
+            <param>com.bookmanager.model.*Test</param>
+            <param>com.bookmanager.service.BookServiceTest</param>
+            <param>com.bookmanager.controller.BookControllerTest</param>
+            <param>com.bookmanager.view.BookSwingViewTest</param>
+            <param>com.bookmanager.app.DatabaseInitializerTest</param>
+        </targetTests>
+        <excludedClasses>
+            <param>com.bookmanager.app.App</param>
+        </excludedClasses>
+        <excludedTestClasses>
+            <!-- Exclude all IT and E2E tests regardless of package -->
+            <param>**/*IT</param>
+            <param>**/*E2E</param>
+        </excludedTestClasses>
+        <mutationThreshold>60</mutationThreshold>
+        <mutators>
+            <mutator>DEFAULTS</mutator>
+        </mutators>
+        <outputFormats>
+            <outputFormat>HTML</outputFormat>
+            <outputFormat>XML</outputFormat>
+        </outputFormats>
+        <timeoutConstant>10000</timeoutConstant>
+    </configuration>
+</plugin>
         </plugins>
     </build>
 </project>

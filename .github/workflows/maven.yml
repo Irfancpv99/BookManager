@@ -14,18 +14,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
+      with:
+        fetch-depth: 0
+
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+
         
-    - name: Start MongoDB
-      uses: supercharge/mongodb-github-action@1.10.0
-      with:
-        mongodb-version: '6.0'
-        
-    - name: Run all tests (unit + IT + E2E)
-      run: mvn -B verify
+    - name: Build and Test with GUI support
+      run: xvfb-run mvn -B clean verify
+
+    - name: Mutation Testing
+      run: mvn org.pitest:pitest-maven:mutationCoverage

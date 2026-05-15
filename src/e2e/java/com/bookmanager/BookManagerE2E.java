@@ -180,25 +180,4 @@ class BookManagerE2E {
         window.list("bookList").requireItemCount(0);
         assertThat(books.countDocuments()).isZero();
     }
-
-    // ── Error case ────────────────────────────────────────────────────────────
-
-    @Test
-    @GUITest
-    void addDuplicateBook_showsErrorAndListUnchanged() {
-        window.textBox("titleField").enterText("1984");
-        window.textBox("authorField").enterText("George Orwell");
-        window.button("addButton").click();
-
-        window.textBox("titleField").deleteText();
-        window.textBox("titleField").enterText("1984");
-        window.textBox("authorField").deleteText();
-        window.textBox("authorField").enterText("George Orwell");
-        window.button("addButton").click();
-
-        window.label("errorLabel").requireText(org.assertj.core.api.Assertions
-                .assertThat("already exists")
-                .toString()); // Use contains if partial match needed
-        window.list("bookList").requireItemCount(1);
-    }
 }

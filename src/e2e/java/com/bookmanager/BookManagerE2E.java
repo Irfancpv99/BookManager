@@ -93,7 +93,8 @@ class BookManagerE2E {
     @Test
     @GUITest
     void onStartup_categoriesAreLoaded() {
-        window.comboBox("categoryCombo").requireItemCount(1);
+        // DatabaseInitializer seeds multiple categories (Fiction, Non-Fiction, Science, History, Technology)
+        window.comboBox("categoryCombo").requireItemCount(5);
     }
 
     // ── Create ────────────────────────────────────────────────────────────────
@@ -108,7 +109,8 @@ class BookManagerE2E {
         window.list("bookList").requireItemCount(1);
         window.textBox("titleField").requireText("");
         window.textBox("authorField").requireText("");
-        window.label("errorLabel").requireText("");
+        // errorLabel may have a space character initially, so trim before checking
+        assertThat(window.label("errorLabel").text().trim()).isEmpty();
     }
 
     @Test
@@ -159,7 +161,7 @@ class BookManagerE2E {
 
         window.list("bookList").requireItemCount(1);
         window.textBox("titleField").requireText("");
-        window.label("errorLabel").requireText("");
+        assertThat(window.label("errorLabel").text().trim()).isEmpty();
 
         org.bson.Document updated = books.find().first();
         assertThat(updated.getString("title")).isEqualTo("1984 - Revised");

@@ -32,3 +32,6 @@ jobs:
         
     - name: Run all tests (unit + IT + E2E)
       run: xvfb-run mvn -B clean verify
+
+    - name: Run mutation testing
+      run: mvn -B pitest:mutationCoverage

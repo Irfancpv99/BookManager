@@ -97,6 +97,14 @@
             <scope>test</scope>
         </dependency>
         
+        <!-- AssertJ Swing for GUI testing -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-swing-junit</artifactId>
+            <version>3.17.1</version>
+            <scope>test</scope>
+        </dependency>
+        
     </dependencies>
 
     <build>
@@ -124,46 +132,6 @@
         </pluginManagement>
 
         <plugins>
-			
-			<!-- Docker: starts MongoDB before IT tests, stops after -->
-			<plugin>
-			    <groupId>io.fabric8</groupId>
-			    <artifactId>docker-maven-plugin</artifactId>
-			    <version>0.43.4</version>
-			    <configuration>
-			        <images>
-			            <image>
-			                <name>mongo:6.0</name>
-			                <alias>mongodb</alias>
-			                <run>
-			                    <ports>
-			                        <port>27017:27017</port>
-			                    </ports>
-			                    <wait>
-			                        <log>Waiting for connections</log>
-			                        <time>30000</time>
-			                    </wait>
-			                </run>
-			            </image>
-			        </images>
-			    </configuration>
-			    <executions>
-			        <execution>
-			            <id>docker-start</id>
-			            <phase>pre-integration-test</phase>
-			            <goals>
-			                <goal>start</goal>
-			            </goals>
-			        </execution>
-			        <execution>
-			            <id>docker-stop</id>
-			            <phase>post-integration-test</phase>
-			            <goals>
-			                <goal>stop</goal>
-			            </goals>
-			        </execution>
-			    </executions>
-			</plugin>
             <!-- Unit tests (src/test/java — *Test.java) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -174,7 +142,7 @@
                 </configuration>
             </plugin>
 
-            <!-- Integration tests (src/it/java — *IT.java) -->
+            <!-- Integration tests (src/it/java — *IT.java, src/e2e/java — *E2E.java) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -279,17 +247,24 @@
                         <param>com.bookmanager.model.*</param>
                         <param>com.bookmanager.service.*</param>
                         <param>com.bookmanager.controller.*</param>
-                        
                     </targetClasses>
                     <targetTests>
-                        <param>com.bookmanager.model.*</param>
-                        <param>com.bookmanager.service.*</param>
-                        <param>com.bookmanager.controller.*</param>
+                        <!-- Only src/test/java unit tests -->
+                        <param>com.bookmanager.model.*Test</param>
+                        <param>com.bookmanager.service.BookServiceTest</param>
+                        <param>com.bookmanager.controller.BookControllerTest</param>
+                        <param>com.bookmanager.view.BookSwingViewTest</param>
+                        <param>com.bookmanager.app.DatabaseInitializerTest</param>
                     </targetTests>
                     <excludedClasses>
-                        <param>com.bookmanager.app.*</param>
+                        <param>com.bookmanager.app.App</param>
                     </excludedClasses>
-                    <mutationThreshold>60</mutationThreshold>
+                    <excludedTestClasses>
+                        <!-- Exclude all IT and E2E tests regardless of package -->
+                        <param>**/*IT</param>
+                        <param>**/*E2E</param>
+                    </excludedTestClasses>
+                    <mutationThreshold>100</mutationThreshold>
                     <mutators>
                         <mutator>DEFAULTS</mutator>
                     </mutators>

@@ -264,7 +264,7 @@
                         <param>**/*IT</param>
                         <param>**/*E2E</param>
                     </excludedTestClasses>
-                    <mutationThreshold>60</mutationThreshold>
+                    <mutationThreshold>100</mutationThreshold>
                     <mutators>
                         <mutator>DEFAULTS</mutator>
                     </mutators>

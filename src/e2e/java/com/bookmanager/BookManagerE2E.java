@@ -86,7 +86,6 @@ class BookManagerE2E {
     @Test
     @GUITest
     void onStartup_categoriesAreLoaded() {
-        // DatabaseInitializer seeds multiple categories (Fiction, Non-Fiction, Science, History, Technology)
         window.comboBox("categoryCombo").requireItemCount(5);
     }
 
@@ -102,7 +101,6 @@ class BookManagerE2E {
         window.list("bookList").requireItemCount(1);
         window.textBox("titleField").requireText("");
         window.textBox("authorField").requireText("");
-        // errorLabel may have a space character initially, so trim before checking
         assertThat(window.label("errorLabel").text().trim()).isEmpty();
     }
 

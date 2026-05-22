@@ -29,7 +29,6 @@ public class BookSwingView extends JPanel implements BookView {
 
     private BookController controller;
 
-    // track which book is being edited (null = add mode)
     private Book bookBeingEdited;
 
     JTextField titleField;
@@ -127,10 +126,8 @@ public class BookSwingView extends JPanel implements BookView {
         return errorLabel;
     }
 
-    // -------------------------------------------------------------------------
     // UI event handlers
-    // -------------------------------------------------------------------------
-
+  
     private void onBookSelected() {
         Book selected = bookList.getSelectedValue();
         if (selected == null) {
@@ -159,7 +156,7 @@ public class BookSwingView extends JPanel implements BookView {
         controller.addBook(book);
     }
 
-    private void onEditBook() {
+    public void onEditBook() {
         if (bookBeingEdited == null) return;
         Category selected = (Category) categoryCombo.getSelectedItem();
         String categoryId = selected != null ? selected.getId() : null;
@@ -171,17 +168,15 @@ public class BookSwingView extends JPanel implements BookView {
         controller.updateBook(updated);
     }
 
-    private void onDeleteBook() {
+    public void onDeleteBook() {
         Book selected = bookList.getSelectedValue();
         if (selected != null) {
             controller.deleteBook(selected);
         }
     }
 
-    // -------------------------------------------------------------------------
     // Helpers
-    // -------------------------------------------------------------------------
-
+    
     private void selectCategory(String categoryId) {
         for (int i = 0; i < categoryCombo.getItemCount(); i++) {
             if (categoryCombo.getItemAt(i).getId().equals(categoryId)) {
@@ -206,9 +201,7 @@ public class BookSwingView extends JPanel implements BookView {
         editButton.setEnabled(fieldsReady && bookBeingEdited != null);
     }
 
-    // -------------------------------------------------------------------------
-    // BookView callbacks
-    // -------------------------------------------------------------------------
+    	// BookView callback
 
     @Override
     public void showAllBooks(List<Book> books) {
@@ -259,9 +252,8 @@ public class BookSwingView extends JPanel implements BookView {
         errorLabel.setText(message);
     }
 
-    // -------------------------------------------------------------------------
     // Accessors (for tests)
-    // -------------------------------------------------------------------------
+   
 
     public void setController(BookController controller) { this.controller = controller; }
     public JButton getAddButton()                        { return addButton; }

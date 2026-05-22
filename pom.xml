@@ -34,6 +34,9 @@
         <pitest.version>1.15.3</pitest.version>
         <pit.junit5.version>1.2.1</pit.junit5.version>
 
+        <!-- Docker skip for CI -->
+        <docker.skip>false</docker.skip>
+
         <!-- Sonar -->
         <sonar.organization>irfancpv99</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -153,10 +156,10 @@
                         <include>**/*IT.java</include>
                         <include>**/*E2E.java</include>
                     </includes>
-                     <argLine>
-            --add-opens java.base/java.util=ALL-UNNAMED
-            ${argLine}
-        </argLine>
+                    <argLine>
+                        --add-opens java.base/java.util=ALL-UNNAMED
+                        ${argLine}
+                    </argLine>
                 </configuration>
 
                 <executions>
@@ -201,6 +204,7 @@
                 <version>0.43.4</version>
 
                 <configuration>
+                    <skip>${docker.skip}</skip>
                     <images>
                         <image>
                             <name>mongo:6.0</name>

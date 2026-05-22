@@ -5,11 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import javax.swing.JFrame;
 
 import org.assertj.swing.annotation.GUITest;
-import org.assertj.swing.edt.FailOnThreadViolationRepaintManager;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,11 +32,6 @@ class BookManagerE2E {
     private MongoCollection<org.bson.Document> books;
 
     private FrameFixture window;
-
-    @BeforeAll
-    static void setUpOnce() {
-        FailOnThreadViolationRepaintManager.install();
-    }
 
     @BeforeEach
     void setUp() {

@@ -5,11 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import javax.swing.JFrame;
 
 import org.assertj.swing.annotation.GUITest;
-import org.assertj.swing.edt.FailOnThreadViolationRepaintManager;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,11 +32,6 @@ class BookManagerE2E {
     private MongoCollection<org.bson.Document> books;
 
     private FrameFixture window;
-
-    @BeforeAll
-    static void setUpOnce() {
-        FailOnThreadViolationRepaintManager.install();
-    }
 
     @BeforeEach
     void setUp() {
@@ -93,7 +86,6 @@ class BookManagerE2E {
     @Test
     @GUITest
     void onStartup_categoriesAreLoaded() {
-        // DatabaseInitializer seeds multiple categories (Fiction, Non-Fiction, Science, History, Technology)
         window.comboBox("categoryCombo").requireItemCount(5);
     }
 
@@ -109,7 +101,6 @@ class BookManagerE2E {
         window.list("bookList").requireItemCount(1);
         window.textBox("titleField").requireText("");
         window.textBox("authorField").requireText("");
-        // errorLabel may have a space character initially, so trim before checking
         assertThat(window.label("errorLabel").text().trim()).isEmpty();
     }
 

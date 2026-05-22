@@ -2,7 +2,13 @@
 
 Simple Java app to manage books and categories.
 
-## What it does
+## Badge
+
+<a href="https://codecov.io/github/Irfancpv99/BookManager" > 
+ <img src="https://codecov.io/github/Irfancpv99/BookManager/graph/badge.svg?token=JFHOR3XID8"/> 
+ </a>
+
+## Featues 
 - view books and categories
 - add books (with basic validation)
 - delete books

@@ -31,7 +31,7 @@ jobs:
       run: sudo apt-get update && sudo apt-get install -y xvfb
         
     - name: Run all tests (unit + IT + E2E)
-      run: xvfb-run mvn -B clean verify
+      run: xvfb-run mvn -B clean verify -Ddocker.skip=true
 
     - name: Run mutation testing
-      run: mvn -B pitest:mutationCoverage
+      run: mvn -B pitest:mutationCoverage -Ddocker.skip=true

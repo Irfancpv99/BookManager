@@ -1,6 +1,7 @@
 package com.bookmanager.app;
 
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 import com.bookmanager.controller.BookController;
 import com.bookmanager.repository.mongo.MongoBookRepository;
@@ -38,7 +39,7 @@ public class App {
             controller.allCategories();
 
             JFrame frame = new JFrame("Book Manager");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             frame.setContentPane(view);
             frame.setSize(600, 450);
             frame.setLocationRelativeTo(null);

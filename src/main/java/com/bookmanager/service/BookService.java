@@ -9,6 +9,10 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final CategoryRepository categoryRepository;
+    
+    private static final String BookwithID = "Book with id ";
+    private static final String Exist = " already exists";
+    private static final String NotExist = " no longer exists";
 
     public BookService(BookRepository bookRepository, CategoryRepository categoryRepository) {
         this.bookRepository = bookRepository;
@@ -37,7 +41,7 @@ public class BookService {
             return;
         }
         if (book.getId() != null && bookRepository.findById(book.getId()) != null) {
-            view.showError("Book with id " + book.getId() + " already exists");
+            view.showError(BookwithID + book.getId() + Exist);
             return;
         }
         bookRepository.save(book);
@@ -58,7 +62,7 @@ public class BookService {
             return;
         }
         if (bookRepository.findById(book.getId()) == null) {
-            view.showError("Book with id " + book.getId() + " no longer exists");
+            view.showError( BookwithID + book.getId() + NotExist);
             return;
         }
         bookRepository.update(book);
@@ -67,7 +71,7 @@ public class BookService {
 
     public void deleteBook(Book book, BookView view) {
         if (bookRepository.findById(book.getId()) == null) {
-            view.showError("Book with id " + book.getId() + " no longer exists");
+            view.showError(BookwithID + book.getId() + NotExist);
             return;
         }
         bookRepository.delete(book.getId());

@@ -27,9 +27,9 @@ public class BookSwingView extends JPanel implements BookView {
 
     private static final long serialVersionUID = 1L;
 
-    private BookController controller;
+    private transient  BookController controller;
 
-    private Book bookBeingEdited;
+    private transient Book bookBeingEdited;
 
     JTextField titleField;
     JTextField authorField;

@@ -17,25 +17,23 @@ Simple Java app to manage books and categories.
 
 ## Featues 
 - view books and categories
-- add books (with basic validation)
+- add books 
+- Update books
 - delete books
 
 ## Stack
 - Java + Maven
 - JUnit 5 + Mockito
 
-## Run tests
+## Run Unit tests
 ```
 mvn clean test
 ```
+
+## Run All tests
+```
+mvn clean verify
+```
+
 or in Eclipse: right-click → Run As → Maven test
 
-## Structure
-```
-src/main/java/com/bookmanager/
-  model/       - Book, Category
-  repository/  - data access
-  service/     - business logic
-  view/        - view interface
-src/test/java/ - unit tests
-```

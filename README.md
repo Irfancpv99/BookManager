@@ -30,6 +30,11 @@ Simple Java app to manage books and categories.
 mvn clean test
 ```
 
+## Run Integration and E2E tests
+```
+- Must Start the mongoDB database berfore running the test 
+- Use "docker start mongodb"
+```
 ## Run All tests
 ```
 mvn clean verify

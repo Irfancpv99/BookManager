@@ -188,6 +188,7 @@
                         </goals>
 
                         <configuration>
+                        <mainClass>com.bookmanager.app.App</mainClass>
                             <sources>
                                 <source>src/it/java</source>
                                 <source>src/e2e/java</source>

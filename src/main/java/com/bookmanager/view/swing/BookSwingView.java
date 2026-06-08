@@ -100,6 +100,27 @@ public class BookSwingView extends JPanel implements BookView {
         bookList = new JList<>(listModel);
         bookList.setName("bookList");
         bookList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
+        bookList.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
+            String categoryName = "Unknown";
+            for (int i = 0; i < categoryCombo.getItemCount(); i++) {
+                Category cat = categoryCombo.getItemAt(i);
+                if (cat.getId().equals(value.getCategoryId())) {
+                    categoryName = cat.getName();
+                    break;
+                }
+            }
+            JLabel label = new JLabel(value.getTitle() + " - " + value.getAuthor() + " | " + categoryName);
+            label.setOpaque(true);
+            if (isSelected) {
+                label.setBackground(list.getSelectionBackground());
+                label.setForeground(list.getSelectionForeground());
+            } else {
+                label.setBackground(list.getBackground());
+                label.setForeground(list.getForeground());
+            }
+            return label;
+        });
 
         deleteButton = new JButton("Delete Selected");
         deleteButton.setName("deleteButton");

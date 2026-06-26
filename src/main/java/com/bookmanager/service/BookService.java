@@ -1,5 +1,7 @@
 package com.bookmanager.service;
 
+import java.util.UUID;
+
 import com.bookmanager.model.Book;
 import com.bookmanager.repository.BookRepository;
 import com.bookmanager.repository.CategoryRepository;
@@ -40,10 +42,18 @@ public class BookService {
             view.showError("Category must be selected");
             return;
         }
-        if (book.getId() != null && bookRepository.findById(book.getId()) != null) {
+        if (book.getId() == null || book.getId().isBlank()) {
+            book.setId(UUID.randomUUID().toString());
+            bookRepository.save(book);
+            view.bookAdded(book);
+            return;
+        }
+
+        if (bookRepository.findById(book.getId()) != null) {
             view.showError(BOOK_WITH_ID + book.getId() + BOOK_EXIST);
             return;
         }
+
         bookRepository.save(book);
         view.bookAdded(book);
     }

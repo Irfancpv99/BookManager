@@ -126,13 +126,6 @@
         <pluginManagement>
             <plugins>
 
-                <!-- Compiler -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.12.1</version>
-                </plugin>
-
             </plugins>
         </pluginManagement>
 
@@ -188,7 +181,6 @@
                         </goals>
 
                         <configuration>
-                        <mainClass>com.bookmanager.app.App</mainClass>
                             <sources>
                                 <source>src/it/java</source>
                                 <source>src/e2e/java</source>

@@ -21,7 +21,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.List;
-import java.util.UUID;
 
 public class BookSwingView extends JPanel implements BookView {
 
@@ -169,11 +168,8 @@ public class BookSwingView extends JPanel implements BookView {
     private void onAddBook() {
         Category selected = (Category) categoryCombo.getSelectedItem();
         String categoryId = selected != null ? selected.getId() : null;
-        Book book = new Book(
-                UUID.randomUUID().toString(),
-                titleField.getText().trim(),
-                authorField.getText().trim(),
-                categoryId);
+        Book book = new Book(null, titleField.getText().trim(),
+                             authorField.getText().trim(), categoryId);
         controller.addBook(book);
     }
 

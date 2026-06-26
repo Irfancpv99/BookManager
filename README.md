@@ -1,6 +1,6 @@
 # Book Manager
 
-Simple Java app to manage books and categories.
+Simple Java Desktop Application to manage Books with Authur Name and Categories.
 
 ## Badge
 1. SonarCloud
@@ -13,17 +13,28 @@ Simple Java app to manage books and categories.
  <img src="https://codecov.io/github/Irfancpv99/BookManager/graph/badge.svg?token=JFHOR3XID8"/> 
  </a>
 
-
-
 ## Featues 
-- view books and categories
+- view books with author name and categories 
 - add books 
 - Update books
 - delete books
 
-## Stack
-- Java + Maven
-- JUnit 5 + Mockito
+## Tech Stack
+
+- Java 17 - Core language
+- MongoDB - Database
+- Swing - GUI
+- Maven - Build tool
+
+### Testing & Quality Tools
+
+- JUnit 5 & JUnit 4 - Testing
+- Mockito - Mocking
+- AssertJ & AssertJ Swing - Assertions
+- JaCoCo - Code coverage
+- PIT - Mutation testing
+- SonarCloud - Code quality
+- CodeCov - Coverage tracking
 
 ## Run Unit tests
 ```
@@ -32,7 +43,7 @@ mvn clean test
 
 ## Run Integration and E2E tests
 ```
-- Must Start the mongoDB database berfore running the test 
+- Must Start the mongoDB database before running the Integration and E2E Test 
 - Use "docker start mongodb"
 ```
 ## Run All tests

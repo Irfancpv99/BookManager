@@ -40,7 +40,7 @@
         <!-- Sonar -->
         <sonar.organization>irfancpv99</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.projectKey>Irfancpv99_Book-Manager</sonar.projectKey>
+        <sonar.projectKey>Irfancpv99_BookManager</sonar.projectKey>
 
         <!-- Single combined JaCoCo report -->
         <sonar.coverage.jacoco.xmlReportPaths>

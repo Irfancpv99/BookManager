@@ -43,7 +43,7 @@ mvn clean test
 
 ## Run Integration and E2E tests
 ```
-- Must Start the mongoDB database berfore running the Ontegration and E2E test 
+- Must Start the mongoDB database before running the Integration and E2E Test 
 - Use "docker start mongodb"
 ```
 ## Run All tests

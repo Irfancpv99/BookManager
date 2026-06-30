@@ -25,8 +25,6 @@
         <junit.version>5.10.1</junit.version>
         <mockito.version>5.8.0</mockito.version>
         <assertj.version>3.25.1</assertj.version>
-        <log4j.version>2.22.1</log4j.version>
-
         <!-- Plugin versions -->
         <surefire.version>3.2.3</surefire.version>
         <failsafe.version>3.2.3</failsafe.version>
@@ -34,6 +32,7 @@
         <jacoco.version>0.8.11</jacoco.version>
         <pitest.version>1.15.3</pitest.version>
         <pit.junit5.version>1.2.1</pit.junit5.version>
+        <log4j.version>2.22.1</log4j.version> 
 
         <!-- Docker skip for CI -->
         <docker.skip>false</docker.skip>
@@ -72,16 +71,17 @@
             <artifactId>mongodb-driver-sync</artifactId>
             <version>${mongodb.version}</version>
         </dependency>
-
-        <!-- Logging: Log4j2 with the SLF4J 2.x bridge, as used in the book.
-             The MongoDB driver logs through SLF4J; this routes it to Log4j2
-             and avoids the "no SLF4J providers" warning. -->
+        
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j2-impl</artifactId>
-            <version>${log4j.version}</version>
-            <scope>test</scope>
-        </dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-slf4j2-impl</artifactId>
+		    <version>${log4j.version}</version>
+		</dependency>
 
         <!-- JUnit 5 -->
         <dependency>

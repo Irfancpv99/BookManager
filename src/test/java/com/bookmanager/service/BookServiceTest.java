@@ -1,5 +1,6 @@
 package com.bookmanager.service;
 
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -56,8 +57,11 @@ class BookServiceTest {
     @Test
     void addBook_nullId_savesAndNotifiesView() {
         Book b = new Book(null, "Dune", "Frank Herbert", "cat-1");
+
         bookService.addBook(b, bookView);
-        verify(bookRepository, never()).findById(any());
+
+        assertNotNull(b.getId());
+
         verify(bookRepository).save(b);
         verify(bookView).bookAdded(b);
     }

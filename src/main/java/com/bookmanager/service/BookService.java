@@ -42,7 +42,7 @@ public class BookService {
             view.showError("Category must be selected");
             return;
         }
-        if (book.getId() == null || book.getId().isBlank()) {
+        if (book.getId() == null ) {
             book.setId(UUID.randomUUID().toString());
             bookRepository.save(book);
             view.bookAdded(book);

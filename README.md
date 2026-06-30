@@ -47,14 +47,15 @@ mvn clean test
 
 ## Run Mutation Tests
 ```
-mvn pitest:mutationCoverage
+mvn org.pitest:pitest-maven:mutationCoverage
 ```
 
-## Run Integration and E2E tests
-```
-- Must Start the mongoDB database before running the Integration and E2E Test
+## Run Integration & E2E tests
 
-- Use "mvn docker:start" toi stop "mvn docker:stop"
+`mvn clean verify` starts MongoDB in Docker automatically, runs the tests, then stops it.
+
+To run them directly from Eclipse instead, start the database first with `mvn docker:start`,
+run the tests, then `mvn docker:stop` when finished.
 ```
 ## Run everything (unit + IT + E2E, MongoDB starts automatically)
 ```

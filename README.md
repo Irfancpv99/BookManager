@@ -13,6 +13,10 @@ Simple Java Desktop Application to manage Books with Authur Name and Categories.
  <img src="https://codecov.io/github/Irfancpv99/BookManager/graph/badge.svg?token=JFHOR3XID8"/> 
  </a>
 
+3. GitHub Actions build badge
+  
+ [![Java CI](https://github.com/Irfancpv99/BookManager/actions/workflows/maven.yml/badge.svg)](https://github.com/Irfancpv99/BookManager/actions/workflows/maven.yml)
+
 ## Featues 
 - view books with author name and categories 
 - add books 
@@ -28,7 +32,7 @@ Simple Java Desktop Application to manage Books with Authur Name and Categories.
 
 ### Testing & Quality Tools
 
-- JUnit 5 & JUnit 4 - Testing
+- JUnit 5 - Testing
 - Mockito - Mocking
 - AssertJ & AssertJ Swing - Assertions
 - JaCoCo - Code coverage
@@ -41,15 +45,19 @@ Simple Java Desktop Application to manage Books with Authur Name and Categories.
 mvn clean test
 ```
 
+## Run Mutation Tests
+```
+mvn pitest:MutationCoverage
+```
+
 ## Run Integration and E2E tests
 ```
 - Must Start the mongoDB database before running the Integration and E2E Test 
-- Use "docker start mongodb"
+- Use "mvn docker:start" toi stop "mvn docker:stop"
 ```
-## Run All tests
+## Run everything (unit + IT + E2E, MongoDB starts automatically)
 ```
 mvn clean verify
 ```
-
 or in Eclipse: right-click → Run As → Maven test
 

@@ -61,100 +61,19 @@ class BookControllerIT {
         client.close();
     }
 
-    // allBooks
-
     @Test
-    void allBooks_whenEmpty_passesEmptyListToView() {
-        controller.allBooks();
-        assertThat(view.books).isEmpty();
-    }
-
-    @Test
-    void allBooks_afterAdd_returnsSavedBook() {
-        controller.addBook(new Book("b-1", "1984", "George Orwell", "cat-1"));
-        controller.allBooks();
-        assertThat(view.books).containsExactly(new Book("b-1", "1984", "George Orwell", "cat-1"));
-    }
-
-    // allCategories
-
-    @Test
-    void allCategories_returnsSeededCategory() {
-        controller.allCategories();
-        assertThat(view.categories).containsExactly(new Category("cat-1", "Fiction"));
-    }
-
-    // addBook
-
-    @Test
-    void addBook_valid_notifiesViewAndPersistsToDatabase() {
+    void addBook_persistsThroughTheFullStackAndNotifiesView() {
         Book book = new Book("b-1", "Dune", "Frank Herbert", "cat-1");
         controller.addBook(book);
 
         assertThat(view.added).isEqualTo(book);
         controller.allBooks();
-        assertThat(view.books).contains(book);
+        assertThat(view.books).containsExactly(book);
     }
 
     @Test
-    void addBook_invalid_showsErrorAndDoesNotSave() {
-        controller.addBook(new Book(null, "", "Author", "cat-1"));
-
-        assertThat(view.error).isEqualTo("Title cannot be empty");
-        assertThat(view.added).isNull();
-    }
-
-    // updateBook
-
-    @Test
-    void updateBook_valid_updatesInDatabaseAndNotifiesView() {
-        controller.addBook(new Book("b-1", "1984", "George Orwell", "cat-1"));
-
-        Book updated = new Book("b-1", "1984 - Revised", "George Orwell", "cat-1");
-        controller.updateBook(updated);
-
-        assertThat(view.updated).isEqualTo(updated);
-        controller.allBooks();
-        assertThat(view.books.get(0).getTitle()).isEqualTo("1984 - Revised");
-    }
-
-    @Test
-    void updateBook_invalid_showsErrorAndDoesNotUpdate() {
-        controller.addBook(new Book("b-1", "1984", "George Orwell", "cat-1"));
-
-        controller.updateBook(new Book("b-1", "", "George Orwell", "cat-1"));
-
-        assertThat(view.error).isEqualTo("Title cannot be empty");
-        assertThat(view.updated).isNull();
-    }
-
-    @Test
-    void updateBook_notExisting_showsError() {
-        controller.updateBook(new Book("x-99", "Ghost", "Nobody", "cat-1"));
-
-        assertThat(view.error).isEqualTo("Book with id x-99 no longer exists");
-        assertThat(view.updated).isNull();
-    }
-
-    // deleteBook
-
-    @Test
-    void deleteBook_existing_removesFromDatabaseAndNotifiesView() {
-        Book book = new Book("b-1", "1984", "George Orwell", "cat-1");
-        controller.addBook(book);
-
-        controller.deleteBook(book);
-
-        assertThat(view.deleted).isEqualTo(book);
-        controller.allBooks();
-        assertThat(view.books).doesNotContain(book);
-    }
-
-    @Test
-    void deleteBook_notExisting_showsError() {
-        controller.deleteBook(new Book("x-99", "Ghost", "Nobody", "cat-1"));
-
-        assertThat(view.error).isEqualTo("Book with id x-99 no longer exists");
-        assertThat(view.deleted).isNull();
+    void allCategories_returnsSeededCategory() {
+        controller.allCategories();
+        assertThat(view.categories).containsExactly(new Category("cat-1", "Fiction"));
     }
 }

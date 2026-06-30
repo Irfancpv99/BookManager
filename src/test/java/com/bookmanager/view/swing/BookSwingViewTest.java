@@ -168,7 +168,7 @@ class BookSwingViewTest {
         selectFirstBook();
 
         assertThat(view.getCategoryCombo().getSelectedIndex())
-                .isEqualTo(0);
+                .isZero();
     }
 
     @Test
@@ -209,7 +209,7 @@ class BookSwingViewTest {
         view.bookDeleted(book);
 
         assertThat(view.getBookListModel().getSize())
-                .isEqualTo(0);
+                .isZero();
 
         assertThat(
                 view.getErrorLabel()

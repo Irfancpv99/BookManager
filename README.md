@@ -52,7 +52,8 @@ mvn pitest:MutationCoverage
 
 ## Run Integration and E2E tests
 ```
-- Must Start the mongoDB database before running the Integration and E2E Test 
+- Must Start the mongoDB database before running the Integration and E2E Test
+
 - Use "mvn docker:start" toi stop "mvn docker:stop"
 ```
 ## Run everything (unit + IT + E2E, MongoDB starts automatically)

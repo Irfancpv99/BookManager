@@ -47,7 +47,7 @@ mvn clean test
 
 ## Run Mutation Tests
 ```
-mvn pitest:MutationCoverage
+mvn pitest:mutationCoverage
 ```
 
 ## Run Integration and E2E tests

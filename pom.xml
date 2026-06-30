@@ -25,6 +25,7 @@
         <junit.version>5.10.1</junit.version>
         <mockito.version>5.8.0</mockito.version>
         <assertj.version>3.25.1</assertj.version>
+        <log4j.version>2.22.1</log4j.version>
 
         <!-- Plugin versions -->
         <surefire.version>3.2.3</surefire.version>
@@ -72,11 +73,13 @@
             <version>${mongodb.version}</version>
         </dependency>
 
-        <!-- Logging -->
+        <!-- Logging: Log4j2 with the SLF4J 2.x bridge, as used in the book.
+             The MongoDB driver logs through SLF4J; this routes it to Log4j2
+             and avoids the "no SLF4J providers" warning. -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>2.0.9</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+            <version>${log4j.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -122,12 +125,6 @@
     </dependencies>
 
     <build>
-
-        <pluginManagement>
-            <plugins>
-
-            </plugins>
-        </pluginManagement>
 
         <plugins>
 
@@ -312,8 +309,6 @@
                         <param>com.bookmanager.model.*Test</param>
                         <param>com.bookmanager.service.BookServiceTest</param>
                         <param>com.bookmanager.controller.BookControllerTest</param>
-                        <param>com.bookmanager.view.BookSwingViewTest</param>
-                        <param>com.bookmanager.app.DatabaseInitializerTest</param>
                     </targetTests>
 
                     <excludedClasses>

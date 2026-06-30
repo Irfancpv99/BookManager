@@ -30,8 +30,8 @@ class BookTest {
 
     @Test
     void testToString() {
-        assertThat(new Book("b1", "1984", "George Orwell", "c1").toString())
-                .isEqualTo("1984 - George Orwell");
+        assertThat(new Book("b1", "1984", "George Orwell", "c1"))
+                .hasToString("1984 - George Orwell");
     }
 
     @Test
@@ -40,11 +40,12 @@ class BookTest {
         Book b2 = new Book("b1", "Dune", "Frank Herbert", "c2");
         Book b3 = new Book("b2", "1984", "George Orwell", "c1");
 
-        assertThat(b1).isEqualTo(b1);          // same ref
-        assertThat(b1).isNotEqualTo(null);      // null check
-        assertThat(b1).isNotEqualTo("string");  // wrong class
-        assertThat(b1).isEqualTo(b2);           // same id, different fields
-        assertThat(b1).isNotEqualTo(b3);        // different id
+        assertThat(b1)
+                .isEqualTo(b1)          //  this == o
+                .isNotEqualTo(null)      // null check
+                .isNotEqualTo("string")  // wrong class
+                .isEqualTo(b2)           // same id, different fields
+                .isNotEqualTo(b3);       // different id
     }
 
     @Test
@@ -53,7 +54,8 @@ class BookTest {
         Book b2 = new Book("b1", "Dune", "Frank Herbert", "c2");
         Book b3 = new Book("b2", "1984", "George Orwell", "c1");
 
-        assertThat(b1.hashCode()).isEqualTo(b2.hashCode());
-        assertThat(b1.hashCode()).isNotEqualTo(b3.hashCode());
+        assertThat(b1)
+                .hasSameHashCodeAs(b2)
+                .doesNotHaveSameHashCodeAs(b3);
     }
 }

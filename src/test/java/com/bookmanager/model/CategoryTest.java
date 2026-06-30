@@ -24,7 +24,7 @@ class CategoryTest {
 
     @Test
     void testToString() {
-        assertThat(new Category("c1", "Fiction").toString()).isEqualTo("Fiction");
+        assertThat(new Category("c1", "Fiction")).hasToString("Fiction");
     }
 
     @Test
@@ -33,11 +33,12 @@ class CategoryTest {
         Category c2 = new Category("c1", "Something Else");
         Category c3 = new Category("c2", "Fiction");
 
-        assertThat(c1).isEqualTo(c1);          // same ref
-        assertThat(c1).isNotEqualTo(null);      // null check
-        assertThat(c1).isNotEqualTo("string");  // wrong class
-        assertThat(c1).isEqualTo(c2);           // same id, different name
-        assertThat(c1).isNotEqualTo(c3);        // different id
+        assertThat(c1)
+                .isEqualTo(c1)          //  this == o
+                .isNotEqualTo(null)      // null check
+                .isNotEqualTo("string")  // worng class
+                .isEqualTo(c2)           // same id, different name
+                .isNotEqualTo(c3);       // different id
     }
 
     @Test
@@ -46,7 +47,8 @@ class CategoryTest {
         Category c2 = new Category("c1", "Something Else");
         Category c3 = new Category("c2", "Fiction");
 
-        assertThat(c1.hashCode()).isEqualTo(c2.hashCode());
-        assertThat(c1.hashCode()).isNotEqualTo(c3.hashCode());
+        assertThat(c1)
+                .hasSameHashCodeAs(c2)
+                .doesNotHaveSameHashCodeAs(c3);
     }
 }

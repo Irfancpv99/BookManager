@@ -1,276 +1,276 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.bookmanager</groupId>
-	<artifactId>book-manager</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
-	<name>Book Manager</name>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- Java -->
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
-		<!-- Dependency versions -->
-		<mongodb.version>4.11.1</mongodb.version>
-		<junit.version>5.10.1</junit.version>
-		<mockito.version>5.8.0</mockito.version>
-		<assertj.version>3.25.1</assertj.version>
-		<!-- Plugin versions -->
-		<surefire.version>3.2.3</surefire.version>
-		<failsafe.version>3.2.3</failsafe.version>
-		<build.helper.version>3.5.0</build.helper.version>
-		<jacoco.version>0.8.11</jacoco.version>
-		<pitest.version>1.15.3</pitest.version>
-		<pit.junit5.version>1.2.1</pit.junit5.version>
-		<log4j.version>2.22.1</log4j.version>
-		<!-- Docker skip for CI -->
-		<docker.skip>false</docker.skip>
-		<!-- Sonar -->
-		<sonar.organization>irfancpv99</sonar.organization>
-		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<sonar.projectKey>Irfancpv99_BookManager</sonar.projectKey>
-		<!-- Single combined JaCoCo report -->
-		<sonar.coverage.jacoco.xmlReportPaths>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.bookmanager</groupId>
+  <artifactId>book-manager</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>Book Manager</name>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- Java -->
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <!-- Dependency versions -->
+    <mongodb.version>4.11.1</mongodb.version>
+    <junit.version>5.10.1</junit.version>
+    <mockito.version>5.8.0</mockito.version>
+    <assertj.version>3.25.1</assertj.version>
+    <!-- Plugin versions -->
+    <surefire.version>3.2.3</surefire.version>
+    <failsafe.version>3.2.3</failsafe.version>
+    <build.helper.version>3.5.0</build.helper.version>
+    <jacoco.version>0.8.11</jacoco.version>
+    <pitest.version>1.15.3</pitest.version>
+    <pit.junit5.version>1.2.1</pit.junit5.version>
+    <log4j.version>2.22.1</log4j.version>
+    <!-- Docker skip for CI -->
+    <docker.skip>false</docker.skip>
+    <!-- Sonar -->
+    <sonar.organization>irfancpv99</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <sonar.projectKey>Irfancpv99_BookManager</sonar.projectKey>
+    <!-- Single combined JaCoCo report -->
+    <sonar.coverage.jacoco.xmlReportPaths>
             ${project.build.directory}/site/jacoco/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
-		<sonar.exclusions>
+    <sonar.exclusions>
             **/App.java,
             **/model/*.java
         </sonar.exclusions>
-		<sonar.coverage.exclusions>
+    <sonar.coverage.exclusions>
             **/App.java,
             **/model/*.java
         </sonar.coverage.exclusions>
-		<sonar.junit.reportPaths>
+    <sonar.junit.reportPaths>
             ${project.build.directory}/surefire-reports,
             ${project.build.directory}/failsafe-reports
         </sonar.junit.reportPaths>
-	</properties>
-	<dependencies>
-		<!-- MongoDB -->
-		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongodb-driver-sync</artifactId>
-			<version>${mongodb.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j2-impl</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
-		<!-- JUnit 5 -->
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- Mockito -->
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>${mockito.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-junit-jupiter</artifactId>
-			<version>${mockito.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- AssertJ -->
-		<dependency>
-			<groupId>org.assertj</groupId>
-			<artifactId>assertj-core</artifactId>
-			<version>${assertj.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- AssertJ Swing -->
-		<dependency>
-			<groupId>org.assertj</groupId>
-			<artifactId>assertj-swing-junit</artifactId>
-			<version>3.17.1</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-	<build>
-		<plugins>
-			<!-- Unit tests -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${surefire.version}</version>
-			</plugin>
-			<!-- Integration + E2E tests -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>${failsafe.version}</version>
-				<configuration>
-					<includes>
-						<include>**/*IT.java</include>
-						<include>**/*E2E.java</include>
-					</includes>
-					<argLine>
+  </properties>
+  <dependencies>
+    <!-- MongoDB -->
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongodb-driver-sync</artifactId>
+      <version>${mongodb.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>${log4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j2-impl</artifactId>
+      <version>${log4j.version}</version>
+    </dependency>
+    <!-- JUnit 5 -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- Mockito -->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${mockito.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <version>${mockito.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- AssertJ -->
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- AssertJ Swing -->
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-swing-junit</artifactId>
+      <version>3.17.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <!-- Unit tests -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${surefire.version}</version>
+      </plugin>
+      <!-- Integration + E2E tests -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${failsafe.version}</version>
+        <configuration>
+          <includes>
+            <include>**/*IT.java</include>
+            <include>**/*E2E.java</include>
+          </includes>
+          <argLine>
                         --add-opens java.base/java.util=ALL-UNNAMED
                         ${argLine}
                     </argLine>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- Add IT and E2E source folders -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>${build.helper.version}</version>
-				<executions>
-					<execution>
-						<id>add-it-sources</id>
-						<phase>generate-test-sources</phase>
-						<goals>
-							<goal>add-test-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>src/it/java</source>
-								<source>src/e2e/java</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- Fabric8 Docker: start Mongo automatically -->
-			<plugin>
-				<groupId>io.fabric8</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.43.4</version>
-				<configuration>
-					<skip>${docker.skip}</skip>
-					<images>
-						<image>
-							<name>mongo:6.0</name>
-							<run>
-								<ports>
-									<port>27017:27017</port>
-								</ports>
-								<wait>
-									<log>Waiting for connections</log>
-									<time>20000</time>
-								</wait>
-							</run>
-						</image>
-					</images>
-				</configuration>
-				<executions>
-					<execution>
-						<id>start-mongo</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>start</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>stop-mongo</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- JaCoCo -->
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.version}</version>
-				<configuration>
-					<excludes>
-						<exclude>**/App.class</exclude>
-					</excludes>
-				</configuration>
-				<executions>
-					<!-- Attach JaCoCo agent -->
-					<execution>
-						<id>prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<!-- Generate ONE combined report -->
-					<execution>
-						<id>report</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- Run app -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>3.1.0</version>
-				<configuration>
-					<mainClass>com.bookmanager.app.App</mainClass>
-				</configuration>
-			</plugin>
-			<!-- PIT Mutation Testing -->
-			<plugin>
-				<groupId>org.pitest</groupId>
-				<artifactId>pitest-maven</artifactId>
-				<version>${pitest.version}</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.pitest</groupId>
-						<artifactId>pitest-junit5-plugin</artifactId>
-						<version>${pit.junit5.version}</version>
-					</dependency>
-				</dependencies>
-				<configuration>
-					<targetClasses>
-						<param>com.bookmanager.model.*</param>
-						<param>com.bookmanager.service.*</param>
-						<param>com.bookmanager.controller.*</param>
-					</targetClasses>
-					<targetTests>
-						<param>com.bookmanager.model.*Test</param>
-						<param>com.bookmanager.service.BookServiceTest</param>
-						<param>com.bookmanager.controller.BookControllerTest</param>
-					</targetTests>
-					<excludedClasses>
-						<param>com.bookmanager.app.App</param>
-					</excludedClasses>
-					<excludedTestClasses>
-						<param>**/*IT</param>
-						<param>**/*E2E</param>
-					</excludedTestClasses>
-					<mutationThreshold>100</mutationThreshold>
-					<mutators>
-						<mutator>DEFAULTS</mutator>
-					</mutators>
-					<outputFormats>
-						<outputFormat>HTML</outputFormat>
-						<outputFormat>XML</outputFormat>
-					</outputFormats>
-					<timeoutConstant>10000</timeoutConstant>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Add IT and E2E source folders -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${build.helper.version}</version>
+        <executions>
+          <execution>
+            <id>add-it-sources</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>src/it/java</source>
+                <source>src/e2e/java</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Fabric8 Docker: start Mongo automatically -->
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.43.4</version>
+        <configuration>
+          <skip>${docker.skip}</skip>
+          <images>
+            <image>
+              <name>mongo:6.0</name>
+              <run>
+                <ports>
+                  <port>27017:27017</port>
+                </ports>
+                <wait>
+                  <log>Waiting for connections</log>
+                  <time>20000</time>
+                </wait>
+              </run>
+            </image>
+          </images>
+        </configuration>
+        <executions>
+          <execution>
+            <id>start-mongo</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>stop-mongo</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- JaCoCo -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <configuration>
+          <excludes>
+            <exclude>**/App.class</exclude>
+          </excludes>
+        </configuration>
+        <executions>
+          <!-- Attach JaCoCo agent -->
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <!-- Generate ONE combined report -->
+          <execution>
+            <id>report</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Run app -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <mainClass>com.bookmanager.app.App</mainClass>
+        </configuration>
+      </plugin>
+      <!-- PIT Mutation Testing -->
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <version>${pitest.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>${pit.junit5.version}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <targetClasses>
+            <param>com.bookmanager.model.*</param>
+            <param>com.bookmanager.service.*</param>
+            <param>com.bookmanager.controller.*</param>
+          </targetClasses>
+          <targetTests>
+            <param>com.bookmanager.model.*Test</param>
+            <param>com.bookmanager.service.BookServiceTest</param>
+            <param>com.bookmanager.controller.BookControllerTest</param>
+          </targetTests>
+          <excludedClasses>
+            <param>com.bookmanager.app.App</param>
+          </excludedClasses>
+          <excludedTestClasses>
+            <param>**/*IT</param>
+            <param>**/*E2E</param>
+          </excludedTestClasses>
+          <mutationThreshold>100</mutationThreshold>
+          <mutators>
+            <mutator>DEFAULTS</mutator>
+          </mutators>
+          <outputFormats>
+            <outputFormat>HTML</outputFormat>
+            <outputFormat>XML</outputFormat>
+          </outputFormats>
+          <timeoutConstant>10000</timeoutConstant>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import com.bookmanager.model.Category;
 import com.bookmanager.repository.mongo.MongoCategoryRepository;
-
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
@@ -29,7 +29,7 @@ class MongoCategoryRepositoryIT {
     void tearDown() {
         client.close();
     }
-    
+
     @Test
     void findAll_whenEmpty_returnsEmptyList() {
         assertThat(repository.findAll()).isEmpty();
@@ -39,8 +39,7 @@ class MongoCategoryRepositoryIT {
     void save_thenFindAll_returnsSavedCategory() {
         repository.save(new Category("cat-1", "Fiction"));
 
-        assertThat(repository.findAll())
-                .containsExactly(new Category("cat-1", "Fiction"));
+        assertThat(repository.findAll()).containsExactly(new Category("cat-1", "Fiction"));
     }
 
     @Test
